@@ -1,0 +1,43 @@
+{
+  "menu": [
+    {
+      "url": "/",
+      "name": "Dashboards",
+      "icon": "menu-icon tf-icons bx bx-home-circle",
+      "slug": "dashboard",
+      "badge": [
+        "danger",
+        "5"
+      ],
+      "submenu": [
+        {
+          "url": "/dashboard",
+          "name": "Analytics",
+          "slug": "dashboard-analytics"
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "icon": "bx bxs-user-rectangle",
+      "slug": [
+        "tables-basic",
+        "auth-register-basic"
+      ],
+      "submenu": [
+        {
+          "url": "auth/register-basic",
+          "name": "Register",
+          "icon": "bx bxs-user-plus",
+          "slug": "auth-register-basic"
+        },
+        {
+          "url": "tables/basic",
+          "name": "Users List",
+          "icon": "bx bx-list-ul",
+          "slug": "list-users"
+        }
+      ]
+    }
+  ]
+}
