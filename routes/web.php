@@ -47,7 +47,7 @@ use App\Http\Controllers\tables\Basic as TablesBasic;
 // Main Page Route
 Route::get('/', [LoginBasic::class, 'index'])->name('auth-login-basic');
 Route::get('/dashboard', [Analytics::class, 'index'])->name('dashboard-analytics')->middleware('auth');
-Route::post('/login', [LoginBasic::class, 'login'])->name('login');
+Route::post('/login', [LoginBasic::class, 'login'])->middleware('throttle:login')->name('login');
 Route::post('logout',[LoginBasic::class, 'logout'])->name('logout');
 Route::post('/register', [RegisterBasic::class, 'register'])->name('register');
 Route::put('users/{id}', [RegisterBasic::class, 'updateUser'])->name('update-user');

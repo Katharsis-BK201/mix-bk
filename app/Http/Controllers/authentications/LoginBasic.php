@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
 use App\Models\User;
+use Illuminate\Http\Exceptions\Exception;
+
 
 class LoginBasic extends Controller
 {
@@ -17,26 +19,36 @@ class LoginBasic extends Controller
 
   public function login(Request $request)
     {
-      //dd($request->all());
-      $request->validate([
-      'email' => 'required|email',
-      'password' => 'required',
-    ]);
+      try {
+            // Throttle check handled by middleware
 
-    if (Auth::attempt($request->only('email', 'password'))) {
-      $request->session()->regenerate();
-      return response()->json([
-        'status' => 'success',
-        'redirect' => '/dashboard'
-      ]);
+            $request->validate([
+                'email' => 'required|email',
+                'password' => 'required',
+            ]);
 
+            if (Auth::attempt($request->only('email', 'password'))) {
+                $request->session()->regenerate();
+
+                return response()->json([
+                    'status' => 'success',
+                    'redirect' => '/dashboard'
+                ]);
+            }
+
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Invalid credentials'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'An error occurred. Please try again later.'
+            ]);
+        }
     }
 
-    return response()->json([
-      'status' => 'error',
-      'message' => 'Invalid credentials'
-    ]);
-    }
+
 
   public function logout(Request $request)
     {

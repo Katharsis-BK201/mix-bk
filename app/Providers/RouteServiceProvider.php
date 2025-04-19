@@ -27,6 +27,15 @@ class RouteServiceProvider extends ServiceProvider
         RateLimiter::for('api', function (Request $request) {
             return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
         });
+        RateLimiter::for('login', function (Request $request) {
+            return Limit::perMinute(5)->response(function () {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Too many login attempts. Please try again later.'
+                ]);
+            });
+
+        });
 
         $this->routes(function () {
             Route::middleware('api')
@@ -37,6 +46,8 @@ class RouteServiceProvider extends ServiceProvider
             Route::middleware('web')
                 ->namespace($this->namespace)
                 ->group(base_path('routes/web.php'));
+
+
         });
     }
 }
